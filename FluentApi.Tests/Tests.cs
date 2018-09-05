@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentApi.EF;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -54,7 +55,48 @@ namespace FluentApi.Tests
         }
 
         [TestMethod]
-        public void MyTestMethod()
+        public void CreateAffiliatedTeam()
+        {
+            Team t = new Team();
+            t.Name = "A Team";
+            Project p = new Project();
+            p.Name = "The A Team Project";
+            List<Team> demTeams = new List<Team>();
+            demTeams.Add(t);
+            p.Teams = demTeams;
+            Model model = new Model();
+            model.Projects.Add(p);
+            model.SaveChanges();
+
+            Team team = model.Teams.Where(someteam => someteam.Name == "A Team").FirstOrDefault();
+            Project affiliatedProject = team.Project;
+            bool projectHasTeam = team.Name == t.Name && affiliatedProject.Name == p.Name;
+
+            Assert.IsNotNull(team);
+            Assert.IsNotNull(affiliatedProject);
+            Assert.IsTrue(projectHasTeam);
+        }
+
+        [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
+        [TestMethod]
+        public void InvalidOperationException_On_Create_Unaffiliated_ContactInfo()
+        {
+            ContactInfo contactInfo = new ContactInfo();
+            contactInfo.Email = "mara@aspit.dk";
+            contactInfo.Phone = "12345678";
+            Model model = new Model();
+            model.ContactInfos.Add(contactInfo);
+            model.SaveChanges();
+        }
+
+        [TestMethod]
+        public void CreateEmployeeWithoutContactInfo()
+        {
+
+        }
+
+        [TestMethod]
+        public void CreateEmployeeWithContactInfo()
         {
 
         }
