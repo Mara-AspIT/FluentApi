@@ -92,13 +92,39 @@ namespace FluentApi.Tests
         [TestMethod]
         public void CreateEmployeeWithoutContactInfo()
         {
+            // Arrange:
+            Model model = new Model();
+            string newName = $"Lewis Hamilton {(new Random()).Next(0, Int32.MaxValue)}";
+            Employee newEmployee = new Employee { Name = newName };
+            model.Employees.Add(newEmployee);
 
+            // Act:
+            model.SaveChanges();
+            Employee existingEmployee = model.Employees.Single(e => e.Name == newName);
+
+            // Assert:
+            Assert.AreEqual(newEmployee.Name, existingEmployee.Name);
         }
 
         [TestMethod]
         public void CreateEmployeeWithContactInfo()
         {
+            // Arrange:
+            Model model = new Model();
+            string newName = $"Sebastian Vettel {(new Random()).Next(0, Int32.MaxValue)}";
+            Employee newEmployee = new Employee { Name = newName };
+            ContactInfo newContactInfo = new ContactInfo { Email = "seb@ferrari.it", Phone = $"{(new Random()).Next(0, Int32.MaxValue)}" };
+            newEmployee.ContactInfo = newContactInfo;
+            model.Employees.Add(newEmployee);
 
+            // Act:
+            model.SaveChanges();
+            Employee existingEmployee = model.Employees.Single(e => e.Name == newName);
+            ContactInfo existingContactInfo = existingEmployee.ContactInfo;
+            
+            // Assert:
+            Assert.AreEqual(newEmployee.Name, existingEmployee.Name);
+            Assert.AreEqual(newContactInfo.Phone, existingContactInfo.Phone);
         }
     }
 }
