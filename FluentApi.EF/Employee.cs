@@ -10,7 +10,7 @@ namespace FluentApi.EF
     public partial class Employee
     {
 
-        private string name;
+        
         public int Id { get; set; }
 
         [StringLength(100)]
