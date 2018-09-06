@@ -37,37 +37,57 @@ namespace FluentApi.Gui
             selectedEmployee = dataGridEmployees.SelectedItem as Employee;
             textBoxEmployeeName.Text = selectedEmployee.Name;
             if(selectedEmployee.ContactInfo != null)
-            {
+            {                
                 textBoxEmail.Text = selectedEmployee.ContactInfo.Email;
                 textBoxPhone.Text = selectedEmployee.ContactInfo.Phone;
             }
             else
-            {
+            {                
                 textBoxEmail.Text = String.Empty;
                 textBoxPhone.Text = String.Empty;
             }
         }
 
-        private void Button_SaveOrUpadteContactInfo_Click(object sender, RoutedEventArgs e)
-        {
-            
-            
-
-            model.SaveChanges();
-            ReloadAllEmployees();
-        }
-
-        private void Button_SaveOrUpdateEmployee_Click(object sender, RoutedEventArgs e)
-        {
-            if(selectedEmployee.Name != textBoxEmployeeName.Text)
-            {
-                selectedEmployee.Name = textBoxEmployeeName.Text;
-            }
-            model.SaveChanges();
-            ReloadAllEmployees();
-        }
+        
 
         private void ReloadAllEmployees()
             => dataGridEmployees.ItemsSource = model.Employees.ToList();
+
+        private void DataGrid_Employees_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(dataGridEmployees.SelectedItem != null)
+            {
+                if(e.Key == Key.Escape)
+                {
+                    dataGridEmployees.SelectedItem = selectedEmployee = null;
+                    buttonSaveNewEmployee.IsEnabled = true;
+                    buttonUpdateContactInfo.IsEnabled = false;
+                    textBoxEmployeeName.Text = String.Empty;
+                    textBoxEmployeeName.Focus();
+                }
+            }
+        }
+
+        private void Button_SaveNewEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            Employee employee = new Employee();
+            employee.Name = textBoxEmployeeName.Text;
+            model.Employees.Add(employee);
+            model.SaveChanges();
+            ReloadAllEmployees();
+        }
+
+        private void Button_UpdateEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            if(selectedEmployee != null)
+            {
+                if(textBoxEmployeeName.Text != selectedEmployee.Name)
+                {
+                    selectedEmployee.Name = textBoxEmployeeName.Text;
+                }
+                model.SaveChanges();
+                ReloadAllEmployees();
+            }
+        }
     }
 }
