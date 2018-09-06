@@ -31,14 +31,14 @@ namespace FluentApi.Tests
             Assert.AreEqual(newCount, count + 1);
         }
 
-        
+
         [TestMethod]
         public void UpdateProject()
         {
             Model model = new Model();
             Project p = model.Projects.Find(1);
             string oldDescription = p.Description;
-            p.Description = ((new Random()).Next(0,Int32.MaxValue)).ToString();
+            p.Description = ((new Random()).Next(0, Int32.MaxValue)).ToString();
             model.SaveChanges();
             var newP = model.Projects.Find(1);
             Assert.AreNotEqual(oldDescription, newP.Description);
@@ -121,10 +121,52 @@ namespace FluentApi.Tests
             model.SaveChanges();
             Employee existingEmployee = model.Employees.Single(e => e.Name == newName);
             ContactInfo existingContactInfo = existingEmployee.ContactInfo;
-            
+
             // Assert:
             Assert.AreEqual(newEmployee.Name, existingEmployee.Name);
             Assert.AreEqual(newContactInfo.Phone, existingContactInfo.Phone);
         }
+
+        //[TestMethod]
+        //public void MyTestMethod()
+        //{
+        //    Employee kevin = new Employee { Name = "Kevin Magnussen" };
+        //    Employee romain = new Employee { Name = "Romain Grojsean" };
+        //    ContactInfo kevinsInfo = new ContactInfo { Email = "kmag@haas.com", Phone = $"{(new Random()).Next(0, Int32.MaxValue)}" };
+        //    ContactInfo romainsInfo = new ContactInfo { Email = "romain@haas.com", Phone = $"{(new Random()).Next(0, Int32.MaxValue)}" };
+        //    kevin.ContactInfo = kevinsInfo;
+        //    romain.ContactInfo = romainsInfo;
+        //    List<Employee> haasDrivers = new List<Employee> { kevin, romain };
+        //    Team haas = new Team { Name = "Haas F1" };
+        //    haas.Employees = haasDrivers;
+
+        //    Employee sebastian = new Employee { Name = "Sebastian Vettel" };
+        //    Employee kimi = new Employee { Name = "Kimi Räikkönnen" };
+        //    ContactInfo sebastiansInfo = new ContactInfo { Email = "seb@ferrari.it", Phone = $"{(new Random()).Next(0, Int32.MaxValue)}" };
+        //    ContactInfo kimisInfo = new ContactInfo { Email = "kimi@ferrari.it", Phone = $"{(new Random()).Next(0, Int32.MaxValue)}" };
+        //    sebastian.ContactInfo = sebastiansInfo;
+        //    kimi.ContactInfo = kimisInfo;
+        //    List<Employee> ferrariDrivers = new List<Employee> { sebastian, kimi };
+        //    Team ferrari = new Team { Name = "Scuderia Ferrari" };
+        //    ferrari.Employees = ferrariDrivers;
+
+        //    List<Team> f1Teams = new List<Team> { haas, ferrari };
+        //    Project f1 = new Project { Name = "F1", Teams = f1Teams };
+
+        //    Model model = new Model();
+        //    model.Projects.Add(f1);
+        //    model.SaveChanges();
+
+        //    bool projectExists;
+        //    bool has2Teams;
+        //    bool eachTeamHasTwoDrivers;
+        //    bool eachDriverHasAContactInfo;
+        //    Project projects = model.Projects.Single(p => p.Name == "F1");
+        //    List<Team> existingTeams = projects.Teams.ToList();
+        //    has2Teams = existingTeams.Exists(t => t.Name == "Haas") && existingTeams.Exists(t => t.Name == "Scuderia Ferrari") ;
+
+
+        //    Assert.IsTrue(projectExists && has2Teams && eachTeamHasTwoDrivers && eachTeamHasTwoDrivers);
+        //}
     }
 }
