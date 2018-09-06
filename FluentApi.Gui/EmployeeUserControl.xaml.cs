@@ -35,16 +35,21 @@ namespace FluentApi.Gui
         private void DataGrid_Employees_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedEmployee = dataGridEmployees.SelectedItem as Employee;
-            textBoxEmployeeName.Text = selectedEmployee.Name;
-            if(selectedEmployee.ContactInfo != null)
-            {                
-                textBoxEmail.Text = selectedEmployee.ContactInfo.Email;
-                textBoxPhone.Text = selectedEmployee.ContactInfo.Phone;
-            }
-            else
-            {                
-                textBoxEmail.Text = String.Empty;
-                textBoxPhone.Text = String.Empty;
+            if(selectedEmployee != null)
+            {
+                buttonUpdateEmployee.IsEnabled = true;
+                buttonSaveNewEmployee.IsEnabled = false;
+                textBoxEmployeeName.Text = selectedEmployee.Name;
+                if(selectedEmployee.ContactInfo != null)
+                {
+                    textBoxEmail.Text = selectedEmployee.ContactInfo.Email;
+                    textBoxPhone.Text = selectedEmployee.ContactInfo.Phone;
+                }
+                else
+                {
+                    textBoxEmail.Text = String.Empty;
+                    textBoxPhone.Text = String.Empty;
+                } 
             }
         }
 
@@ -61,7 +66,7 @@ namespace FluentApi.Gui
                 {
                     dataGridEmployees.SelectedItem = selectedEmployee = null;
                     buttonSaveNewEmployee.IsEnabled = true;
-                    buttonUpdateContactInfo.IsEnabled = false;
+                    buttonUpdateEmployee.IsEnabled = false;
                     textBoxEmployeeName.Text = String.Empty;
                     textBoxEmployeeName.Focus();
                 }
@@ -87,6 +92,25 @@ namespace FluentApi.Gui
                 }
                 model.SaveChanges();
                 ReloadAllEmployees();
+            }
+        }
+
+        private void TextBox_EmployeeName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(textBoxEmployeeName.Text == String.Empty)
+            {
+                buttonSaveNewEmployee.IsEnabled = false;
+                buttonUpdateEmployee.IsEnabled = false;
+            }
+            else if(selectedEmployee == null)
+            {
+                buttonSaveNewEmployee.IsEnabled = true;
+                buttonUpdateEmployee.IsEnabled = false;
+            }
+            else
+            {
+                buttonSaveNewEmployee.IsEnabled = false;
+                buttonUpdateEmployee.IsEnabled = true;
             }
         }
     }

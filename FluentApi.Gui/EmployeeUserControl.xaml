@@ -63,7 +63,8 @@
           <TextBox Grid.Column="1"
                    Grid.Row="0"
                    Margin="10"
-                   x:Name="textBoxEmployeeName" />
+                   x:Name="textBoxEmployeeName"
+                   TextChanged="TextBox_EmployeeName_TextChanged" />
           <Label Content="Ansættelses dato:"
                  Grid.Column="0"
                  Grid.Row="1"
