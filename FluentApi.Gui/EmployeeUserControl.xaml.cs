@@ -19,7 +19,7 @@ namespace FluentApi.Gui
     /// <summary>
     /// Interaction logic for EmployeeUserControl.xaml
     /// </summary>
-    public partial class EmployeeUserControl: UserControl, INotifyPropertyChanged
+    public partial class EmployeeUserControl: UserControl
     {
         protected Model model;
         private Employee selectedEmployee;
@@ -32,35 +32,9 @@ namespace FluentApi.Gui
             this.DataContext = selectedEmployee;
         }
 
-        public Employee SelectedEmployee
-        {
-            get
-            {
-                return selectedEmployee;
-            }
-
-            set
-            {
-                if(value != selectedEmployee)
-                {
-                    selectedEmployee = value;
-                    Notify(nameof(SelectedEmployee));
-                }
-            }
-        }
-        protected virtual void Notify(string propertyName)
-        {
-            if(PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private void DataGrid_Employees_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedEmployee = dataGridEmployees.SelectedItem as Employee;
-            
+            selectedEmployee = dataGridEmployees.SelectedItem as Employee;            
         }
     }
 }

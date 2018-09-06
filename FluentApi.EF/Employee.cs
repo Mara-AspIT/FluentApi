@@ -7,7 +7,7 @@ namespace FluentApi.EF
     using System.Data.Entity.Spatial;
     using System.ComponentModel;
 
-    public partial class Employee:INotifyPropertyChanged
+    public partial class Employee
     {
 
         private string name;
@@ -16,15 +16,7 @@ namespace FluentApi.EF
         [StringLength(100)]
         public string Name
         {
-            get => name;
-            set
-            {
-                if(value != name)
-                {
-                    name = value;
-                    Notify(nameof(Name));
-                }
-            }
+            get;set;
         }
 
         public int? TeamId { get; set; }
@@ -33,14 +25,6 @@ namespace FluentApi.EF
 
         public virtual Team Team { get; set; }
 
-        protected virtual void Notify(string propertyName)
-        {
-            if(PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        
     }
 }
