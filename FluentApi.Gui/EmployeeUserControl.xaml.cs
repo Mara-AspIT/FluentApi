@@ -49,11 +49,11 @@ namespace FluentApi.Gui
                 {
                     textBoxEmail.Text = String.Empty;
                     textBoxPhone.Text = String.Empty;
-                } 
+                }
             }
         }
 
-        
+
 
         private void ReloadAllEmployees()
             => dataGridEmployees.ItemsSource = model.Employees.ToList();
@@ -75,11 +75,26 @@ namespace FluentApi.Gui
 
         private void Button_SaveNewEmployee_Click(object sender, RoutedEventArgs e)
         {
-            Employee employee = new Employee();
-            employee.Name = textBoxEmployeeName.Text;
-            model.Employees.Add(employee);
-            model.SaveChanges();
-            ReloadAllEmployees();
+            string nameInput = textBoxEmployeeName.Text;
+            if(!Validator.IsNameValid(nameInput))
+            {
+                MessageBox.Show("Det indtastede navn er ikke gyldigt. Må kun indeholde bogstaver og mellemrum. Prøv igen.", "Indtastningsfejl", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                try
+                {
+                    Employee employee = new Employee();
+                    employee.Name = textBoxEmployeeName.Text;
+                    model.Employees.Add(employee);
+                    model.SaveChanges();
+                    ReloadAllEmployees();
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("Der skete desværre en uventet fejl under forsøget på at gemme den nye ansatte. Prøv igen", "Uventet fejl", MessageBoxButton.OK, MessageBoxImage.Stop);
+                }
+            }
         }
 
         private void Button_UpdateEmployee_Click(object sender, RoutedEventArgs e)

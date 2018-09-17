@@ -28,6 +28,8 @@
                                 Binding="{Binding ContactInfo.Email}" />
             <DataGridTextColumn Header="Telefon"
                                 Binding="{Binding ContactInfo.Phone}" />
+            <DataGridTextColumn Header="Løn"
+                                Binding="{Binding Salary}" />
           </DataGrid.Columns>
         </DataGrid>
       </Grid>
@@ -65,6 +67,7 @@
                    Margin="10"
                    x:Name="textBoxEmployeeName"
                    TextChanged="TextBox_EmployeeName_TextChanged" />
+          <ComboBox DisplayMemberPath="{Binding Name}" />
           <Label Content="Ansættelses dato:"
                  Grid.Column="0"
                  Grid.Row="1"
