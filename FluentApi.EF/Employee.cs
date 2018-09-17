@@ -7,16 +7,10 @@ namespace FluentApi.EF
     using System.Data.Entity.Spatial;
     using System.ComponentModel;
 
-    public partial class Employee
+    public class Person
     {
         protected string name;
 
-        public int Id
-        {
-            get; set;
-        }
-
-        [StringLength(100)]
         public string Name
         {
             get => name;
@@ -26,6 +20,16 @@ namespace FluentApi.EF
                     throw new ArgumentException("Invalid value provided");
                 name = value;
             }
+        }
+    }
+
+    public partial class Employee: Person
+    {
+
+
+        public int Id
+        {
+            get; set;
         }
 
         public int? TeamId
@@ -47,7 +51,5 @@ namespace FluentApi.EF
         {
             get; set;
         }
-
-
     }
 }
